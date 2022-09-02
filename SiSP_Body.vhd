@@ -34,23 +34,23 @@ BEGIN
 		IF (SBY_Clock = '0')
 		THEN	Edge_From_RclkIn := TRUE;
 		ELSE	IF (rising_edge(SBY_Clock))
-				THEN	IF (Sclk = Full_1) 
-						THEN Sclk := Full_0	;
-						ELSE Sclk := Sclk + 1	;
-						END IF;
-						Edge_From_RclkIn := FALSE;
+			THEN	IF (Sclk = Full_1) 
+				THEN Sclk := Full_0	;
+				ELSE Sclk := Sclk + 1	;
 				END IF;
+				Edge_From_RclkIn := FALSE;
+			END IF;
 		END IF;
 				
 		IF(Edge_From_RclkIn = TRUE)
 		THEN	IF (SBY_Rclk_in /= Unknown) and (SBY_Rclk_in /= UnInit)
-				THEN 	
-					-- Calculate new shared sclk
-					Sclk_Temp 	:= Sclk ;
-					Sclk_Temp 	:= std_logic_vector(unsigned(Sclk_Temp) + unsigned(SBY_Rclk_in));
-					Sclk_Temp 	:= std_logic_vector(to_unsigned(0,Sclk_Temp'length)) + Sclk_Temp(N-1 downto 1);
-					Sclk		:= Sclk_Temp ;
-				END IF;
+			THEN 	
+				-- Calculate new shared sclk
+				Sclk_Temp 	:= Sclk ;
+				Sclk_Temp 	:= std_logic_vector(unsigned(Sclk_Temp) + unsigned(SBY_Rclk_in));
+				Sclk_Temp 	:= std_logic_vector(to_unsigned(0,Sclk_Temp'length)) + Sclk_Temp(N-1 downto 1);
+				Sclk		:= Sclk_Temp ;
+			END IF;
 		END IF;
 	
 	END PROCESS;
